@@ -154,11 +154,28 @@ In geom_histogram we get an error due to not finding the caramel. In aes we get 
 Create a visualization that examines the relationship between a candy’s win percentage and whether it contains chocolate. Include x and y labels and a title. Describe any relationship you see.
 
 ```{r}
-# your code here
-
+candy_df %>%
+  ggplot(candy_df, mapping = aes(y = winpercent,
+                                 x = chocolate)) +
+  geom_boxplot()
 ```
 
 - Consider the similar pair by replacing chocolate with caramel, fruity and compare their results. 
+
+```{r}
+candy_df %>%
+  ggplot(candy_df, mapping = aes(y = winpercent,
+                                 x = caramel)) +
+  geom_boxplot()
+```
+
+```{r}
+candy_df %>%
+  ggplot(candy_df, mapping = aes(y = winpercent,
+                                 x = fruity)) +
+  geom_boxplot()
+```
+
 - Also include summary statistics details for this discussion by using the calculation below: 
 
 ```{r}
@@ -170,20 +187,40 @@ candy_rankings %>%
     median_win = median(winpercent)
   )
 ```
-
+```{r}
+candy_rankings %>%
+  group_by(caramel) %>%
+  summarise(
+    n = n(),
+    mean_win = mean(winpercent),
+    median_win = median(winpercent)
+  )
+```
+```{r}
+candy_rankings %>%
+  group_by(fruity) %>%
+  summarise(
+    n = n(),
+    mean_win = mean(winpercent),
+    median_win = median(winpercent)
+  )
+```
+It can be seen from both box plots and data summary that the median of having fruity contributes less for win percentage compared to being caramel and chocalate, which both have nearly 60% median win percentage.
 
 ## Exercise 6
 
 Do more expensive candies win more often? Make a scatterplot of pricepercent (x) against winpercent (y). Describe their relationship.  
 
 ```{r}
-# your code here
-
+candy_rankings %>%
+  ggplot(mapping = aes(x = pricepercent,
+                       y = winpercent,
+                       colour = chocolate)) +
+  geom_point() +
+  facet_wrap(~bar)
 ```
 
 
-- Add `color = chocolate` to add a third variable to the created visualization
-- How to facet this by using another categorical variable such as `bar`? 
 
 
 ## Exercise 7
@@ -191,7 +228,10 @@ Do more expensive candies win more often? Make a scatterplot of pricepercent (x)
 Are chocolate candies more likely to be candy bars? Make a filled bar plot with chocolate on the x-axis and fill = bar. Describe what you see.
 
 ```{r}
-# Your code here
+candy_rankings %>%
+  ggplot(mapping = aes(x = chocolate,
+                       fill = bar)) +
+  geom_bar()
 
 ```
 
