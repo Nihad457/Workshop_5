@@ -69,7 +69,7 @@ library(fivethirtyeight)
 
 ```{r}
 candy_df <- candy_rankings
-glimpse(candy_df)
+candy_df
 ```
 
 
@@ -77,6 +77,7 @@ glimpse(candy_df)
 
 How many observations and variables are in this dataset?
 Did you identify the type of variables, remember that this detail is crucial to create which kind of data visualization in general. 
+85 observations, and 13 variables.
 
 _Write your comments about results_
 
@@ -87,6 +88,7 @@ Just to use the logical variables as categories, run the following code chunk fi
 ```{r}
 candy_df <- candy_df %>%
   mutate(across(where(is.logical), as_factor))
+candy_df
 ```
 
 ## Exercise 2
@@ -94,8 +96,20 @@ candy_df <- candy_df %>%
 Complete the following code to get the data viz to represent "how many candies contain caramel via bar plot". Fill in the blanks, remove the # symbol in front of your code and the execute the code chunk via green play button.
 
 ```{r}
-# ggplot(candy_rankings, aes(x = ______)) +
-#  _____() +
+
+candy_rankings %>%
+ ggplot(mapping = aes(x = caramel)) +
+  geom_bar() +
+  labs(x = "Having Caramel",
+       y = "Number of competitors having/not having caramel")
+```
+
+```{r}
+candy_rankings %>%
+ ggplot(mapping = aes(x = chocolate)) +
+  geom_bar() +
+  labs(x = "Having Chocolate",
+       y = "Number of competitors having/not having chocolace")
 ```
 
 ## Exercise 3
@@ -103,10 +117,15 @@ Complete the following code to get the data viz to represent "how many candies c
 Now look at a numerical variable, such as `winpercent`. Create an histogram for this variable using ggplot2 functions below. Include informative x and y labels and a title, as a good practice.
 
 ```{r}
-# Your code here
+candy_df %>%
+  ggplot(mapping = aes(x = winpercent)) +
+  geom_histogram(binwidth = 10) +
+  labs(x = "Win Percentage",
+       y = "The frequency of Win Percentage",
+       title = "Win Percentage Distribution For Different Competitors")
 
 ```
-
+Decreasing bandwith enables us to see the distribution much more clearly rahter than just seeing one variable, if we decrease bandwith much more averages around 50-60% as expected. 
 
 # Data viz - more than one variable
 
@@ -118,14 +137,17 @@ Fill in the blanks, remove the # symbol in front of your code and the execute th
 
 ```{r}
 # Your code here
-#ggplot(candy_df, aes(x = ___________)) +
-#  geom_histogram() +
-#  facet_wrap(___________)
+ggplot(candy_df, aes(x = winpercent,
+                     fill = caramel)) +
+  geom_histogram() +
+  facet_wrap(~ chocolate)
 
 ```
 
 
 - Consider adding the `fill = caramel` within the aes() vs. geom_histogram(), what do you get? 
+
+In geom_histogram we get an error due to not finding the caramel. In aes we get respectieive data for counting caramel as well.
 
 ## Exercise 5
 
